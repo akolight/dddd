@@ -1,0 +1,71 @@
+[gd_scene load_steps=13 format=3 uid="uid://binhynaa7modn"]
+
+[ext_resource type="Script" uid="uid://bvityxcgyrksm" path="res://Player/player.gd" id="1_v0iea"]
+[ext_resource type="PackedScene" uid="uid://di643b1kw4xy" path="res://Assets/placeholder_model.glb" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://c7s5gtjgv06en" path="res://Player/Interaction/player_interaction_handler.gd" id="3_gwnis"]
+[ext_resource type="Script" uid="uid://8e2msjdbdda8" path="res://Inventory/item_data.gd" id="4_k53q1"]
+[ext_resource type="PackedScene" uid="uid://c2nctc7x3ebyt" path="res://Inventory/test_cube.tscn" id="5_k53q1"]
+[ext_resource type="Texture2D" uid="uid://cbd17bexjj65g" path="res://icon3.svg" id="5_vtle1"]
+[ext_resource type="Texture2D" uid="uid://bwq43kxmk4jgr" path="res://icon2.svg" id="7_00tjw"]
+[ext_resource type="PackedScene" uid="uid://butwehhufwcwo" path="res://Inventory/test_cube2.tscn" id="8_x3vf3"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_23eyu"]
+radius = 0.3
+
+[sub_resource type="Resource" id="Resource_od3ui"]
+script = ExtResource("4_k53q1")
+item_name = "White Box"
+icon = ExtResource("5_vtle1")
+item_model_prefab = ExtResource("5_k53q1")
+item_stack_limit = 5
+item_count = 1
+metadata/_custom_type_script = "uid://8e2msjdbdda8"
+
+[sub_resource type="Resource" id="Resource_00tjw"]
+script = ExtResource("4_k53q1")
+item_name = "Blue Box"
+icon = ExtResource("7_00tjw")
+item_model_prefab = ExtResource("8_x3vf3")
+item_stack_limit = 5
+item_count = 1
+metadata/_custom_type_script = "uid://8e2msjdbdda8"
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ntmi"]
+radius = 2.4
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("interact_area", "inventory") groups=["player"]]
+script = ExtResource("1_v0iea")
+interact_area = NodePath("InteractionArea")
+inventory = NodePath("")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_23eyu")
+debug_fill = false
+
+[node name="CamOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CamOrigin"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0)
+spring_length = 5.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CamOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[node name="placeholder_model" parent="." instance=ExtResource("2_cvnsp")]
+transform = Transform3D(-0.5, 0, 4.37114e-08, 0, 0.5, 0, -4.37114e-08, 0, -0.5, 0, -0.99, 0)
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_gwnis")
+items = Array[ExtResource("4_k53q1")]([null, SubResource("Resource_od3ui"), SubResource("Resource_00tjw")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("SphereShape3D_4ntmi")
+
+[connection signal="body_entered" from="InteractionArea" to="InteractionArea" method="on_body_entered_area"]
+[connection signal="body_exited" from="InteractionArea" to="InteractionArea" method="on_object_exited_area"]

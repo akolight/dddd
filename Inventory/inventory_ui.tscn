@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu7md432dhum3"]
+
+[ext_resource type="StyleBox" uid="uid://cch7ml5luuy3w" path="res://Inventory/Resources/inventory_panel.tres" id="1_afoyu"]
+[ext_resource type="Script" uid="uid://dwokmdlcafphe" path="res://Inventory/inventory_handler.gd" id="1_o6avf"]
+
+[node name="InventoryUI" type="Control" node_paths=PackedStringArray("inventory_grid")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.998715)
+mouse_filter = 2
+script = ExtResource("1_o6avf")
+collision_mask = 1
+item_slots_count = 30
+inventory_grid = NodePath("Panel/MarginContainer/GridContainer")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(365, 425)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.95
+anchor_top = 0.9
+anchor_right = 0.95
+anchor_bottom = 0.9
+offset_left = -365.0
+offset_top = -425.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = ExtResource("1_afoyu")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 5

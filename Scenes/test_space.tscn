@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://ddm21xlqgbwla"]
+
+[ext_resource type="PackedScene" uid="uid://wyva3xvk4a2d" path="res://Player/player_test.tscn" id="2_jeefb"]
+[ext_resource type="PackedScene" uid="uid://d36mvnap3nvpx" path="res://Scenes/Greybox/dark_block.tscn" id="2_r6l6o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl7jw"]
+albedo_color = Color(0.357197, 0.34277, 0.238347, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qsk0r"]
+material = SubResource("StandardMaterial3D_bl7jw")
+size = Vector2(50, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jeefb"]
+size = Vector3(50, 0.1, 50)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" parent="." instance=ExtResource("2_jeefb")]
+
+[node name="Terrain" type="Node" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="Terrain"]
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Terrain/Ground"]
+mesh = SubResource("PlaneMesh_qsk0r")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Terrain/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_jeefb")
+debug_fill = false
+
+[node name="Block" parent="Terrain" instance=ExtResource("2_r6l6o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 4)
+
+[node name="Block2" parent="Terrain" instance=ExtResource("2_r6l6o")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.60128, 0.5, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 11.1392, 0)

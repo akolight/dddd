@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://d36mvnap3nvpx"]
+
+[ext_resource type="Texture2D" uid="uid://dp27ffq1fyi0g" path="res://Assets/Greybox/Dark/texture_01.png" id="1_ym3xt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jeefb"]
+albedo_texture = ExtResource("1_ym3xt")
+uv1_offset = Vector3(-0.5, 0.5, 0)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_r6l6o"]
+material = SubResource("StandardMaterial3D_jeefb")
+size = Vector3(5, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r6l6o"]
+size = Vector3(5, 1, 1)
+
+[node name="Block" type="StaticBody3D"]
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.00202, 0, 0, 0, 1.00202, 0, 0, 0, 1.00202, 0, 0, 0)
+mesh = SubResource("BoxMesh_r6l6o")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_r6l6o")

@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://wyva3xvk4a2d"]
+
+[ext_resource type="Script" uid="uid://cm827b650t3fs" path="res://Player/player_test.gd" id="1_xjjte"]
+[ext_resource type="Script" uid="uid://cuc2crld43m5f" path="res://Scripts/camera_spring_arm.gd" id="2_acvas"]
+[ext_resource type="Script" uid="uid://b7epxorgr0bsd" path="res://Scripts/camera_follow.gd" id="3_pm723"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rpfxk"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xjjte"]
+radius = 0.1
+height = 0.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xjjte"]
+radius = 0.25
+height = 1.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pm723"]
+radius = 0.3
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+floor_constant_speed = true
+platform_on_leave = 2
+script = ExtResource("1_xjjte")
+camera = NodePath("SpringArmPivot/Camera3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_rpfxk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(4.37114e-08, -1, 4.37114e-08, -1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 0, 0.257893, 0.184234)
+mesh = SubResource("CapsuleMesh_xjjte")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_xjjte")
+
+[node name="SpringArmPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.257276, 0)
+script = ExtResource("2_acvas")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="SpringArmPivot"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+shape = SubResource("SphereShape3D_pm723")
+spring_length = 3.0
+
+[node name="SpringPosition" type="Node3D" parent="SpringArmPivot/SpringArm3D"]
+
+[node name="Camera3D" type="Camera3D" parent="SpringArmPivot" node_paths=PackedStringArray("spring_arm")]
+script = ExtResource("3_pm723")
+spring_arm = NodePath("../SpringArm3D/SpringPosition")
